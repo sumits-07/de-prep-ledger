@@ -2,7 +2,15 @@ import requests
 import json
 import time
 
-api_url = "https://api.open-meteo.com/v1/forecast?latitude=28.47&longitude=77.03&current_weather=true"
+api_url = "https://api.open-meteo.com/v1/forecast?"
+
+payload={
+	"latitude":28.47,
+	"longitude":77.03,
+	"forecast_hours":3,
+	"hourly":["temperature_2m","relative_humidity_2m","cloud_cover","precipitation_probability","weather_code","visibility","is_day"]
+	,"timezone":"Asia/Calcutta"
+}
 
 def extract_weather_data():
 	print("Initialising extraction sequence starting in...")
@@ -10,7 +18,7 @@ def extract_weather_data():
 		print(i)
 		time.sleep(1)
 
-	response = requests.get(api_url)
+	response = requests.get(api_url, params=payload)
 
 
 	if response.status_code==200:
