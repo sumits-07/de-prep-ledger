@@ -2,13 +2,14 @@ import requests
 import json
 import time
 
-api_url = "https://api.open-meteo.com/v1/forecast?"
+api_url = "https://historical-forecast-api.open-meteo.com/v1/forecast?"
 
 payload={
 	"latitude":28.47,
 	"longitude":77.03,
-	"forecast_hours":3,
-	"hourly":["temperature_2m","relative_humidity_2m","cloud_cover","precipitation_probability","weather_code","visibility","is_day"]
+	"past_days":90,
+	"forecast_days":0,
+	"hourly":["temperature_2m","relative_humidity_2m","cloud_cover","precipitation","weather_code","visibility","is_day"]
 	,"timezone":"Asia/Calcutta"
 }
 

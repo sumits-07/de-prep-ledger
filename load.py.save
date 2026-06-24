@@ -3,7 +3,7 @@ from sqlalchemy import create_engine, text
 import sys
 import time
 
-DB_URI= "postgresql://postgres:scooby@localhost:5432/weather_db"
+DB_URI= "postgres://postgres:scooby@localhost:5432/weather_db"
 silver_level_file = 'silver_weather_data.parquet'
 
 
@@ -16,20 +16,18 @@ def load_to_gold():
 	try:
 		df = pd.read_parquet(silver_level_file)
 
-		dim_location_df = df[['location_id','latitude','longitude','timezone']].drop_duplicates()
+		dim_location_df = df[['location_id','latitude','longitude','timezone']].drop_dumplicates()
 		dim_location_df['city_name']='Greater Noida'
 
-
 		fact_df = df.rename(columns={
-					'time':'forecast_time',
+					'time':'forcast_time',
 					'temperature_2m':'temperature_celsius',
 					'relative_humidity_2m':'humidity_percentage',
 					'cloud_cover':'cloud_cover_percentage',
 					'precipitation_probability':'precipitation_probability',
-					'visibility':'visibility_in_m'
-					})[['location_id','forecast_time','temperature_celsius','humidity_percentage','cloud_cover_percentage','precipitation_probability','weather_code','visibility_in_m','is_day']]
+					'visibility':'visibility_in_m',
+					})[['location_id','forecast_time','temperature_celsius','humidity_percentage','cloud_cover','precipitation_probability','weather_code','visibility_in_m','is_day']]
 
-		fact_df['is_day']=fact_df['is_day'].astype(bool)
 
 		engine = create_engine(DB_URI)
 		with engine.begin() as conn:
@@ -62,33 +60,31 @@ def load_to_gold():
 				SELECT
 					location_id,
 					CAST(forecast_time AS TIMESTAMP),
-					temperature_celsius,
 					humidity_percentage,
 					cloud_cover_percentage,
 					precipitation_probability,
 					weather_code,
 					visibility_in_m,
-					is_day
+					CAST(is_day AS boolean)
 				FROM temp_fact_df
 				ON CONFLICT (location_id,forecast_time)
 				DO UPDATE SET
 					temperature_celsius=EXCLUDED.temperature_celsius,
 					humidity_percentage=EXCLUDED.humidity_percentage,
-                                        cloud_cover_percentage=EXCLUDED.cloud_cover_percentage,
+                                        cloud_cover_percentage=EXCLUDED.cloud_cover,
                                         precipitation_probability=EXCLUDED.precipitation_probability,
                                         weather_code=EXCLUDED.weather_code,
-                                        visibility_in_m=EXCLUDED.visibility_in_m
+                                        visibility_in_m=EXCLUDED.visibility_in_m,
 				"""))
 			conn.execute(text("DROP TABLE temp_fact_df"))
 
 
-		print("Yayy!! Gold Layer Created Successfully")
+		Print("Yayy!! Gold Layer Created Successfully")
 
 
 
 	except Exception as e:
 		print(f"CRITICAL ERROR: {e}")
-		raise
 
 
 

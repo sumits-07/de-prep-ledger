@@ -27,7 +27,7 @@ def transform_weather_data():
 		df=pd.DataFrame(raw_data['hourly'])
 
 
-		df['loaction_id'] = location_id
+		df['location_id'] = location_id
 		df['latitude']=lat
 		df['longitude']=lon
 		df['timezone']=tz
