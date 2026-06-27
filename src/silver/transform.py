@@ -1,13 +1,13 @@
 import json
 import pandas as pd
-import time
+#import time
 
 
 def transform_weather_data():
-	print("Transfor sequence starting in....")
-	for i in range(3,0,-1):
-		print (i)
-		time.sleep(0.5)
+	#print("Transfor sequence starting in....")
+	#for i in range(3,0,-1):
+	#	print (i)
+	#	time.sleep(0.5)
 
 	try:
 		# Opening the Bronze layer file

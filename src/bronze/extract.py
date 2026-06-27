@@ -14,10 +14,10 @@ payload={
 }
 
 def extract_weather_data():
-	print("Initialising extraction sequence starting in...")
-	for i in range(3,0,-1):
-		print(i)
-		time.sleep(1)
+	#print("Initialising extraction sequence starting in...")
+	#for i in range(3,0,-1):
+	#	print(i)
+	#	time.sleep(1)
 
 	response = requests.get(api_url, params=payload)
 

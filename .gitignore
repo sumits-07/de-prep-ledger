@@ -1,0 +1,43 @@
+# ==============================================================================
+# SECURITY & ENVIRONMENT CONFIGURATION
+# ==============================================================================
+# Never commit raw credentials or local secrets to version control.
+.env
+.env.*
+
+# ==============================================================================
+# LOCAL DATA LAKE ISOLATION
+# ==============================================================================
+# Prevent massive datasets from bloating the git tree.
+data/
+*.csv
+*.json
+*.parquet
+
+# Explicitly whitelist the schema configuration so it IS tracked
+!config/silver_schema.json
+
+# ==============================================================================
+# PIPELINE STATE & TELEMETRY
+# ==============================================================================
+# Exclude local high-watermark tracking states and operational logs.
+state.json
+logs/
+*.log
+
+# ==============================================================================
+# PYTHON ENVIRONMENT & RUNTIMES
+# ==============================================================================
+# Exclude the virtual sandbox environment and compiled bytecodes.
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# ==============================================================================
+# SYSTEM & IDE METADATA
+# ==============================================================================
+# Ignore operating system artifacts and temporary editor files.
+.DS_Store
+.vscode/
+*.save
